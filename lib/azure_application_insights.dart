@@ -5,4 +5,5 @@ export 'src/client.dart';
 export 'src/context.dart';
 export 'src/http.dart';
 export 'src/processing.dart';
+export 'src/offline_processor.dart';
 export 'src/telemetry.dart';
