@@ -42,6 +42,23 @@ final telemetryClient = TelemetryClient(
 
 This is a typical setup where telemetry items are buffered before being transmitted. Depending on your processing needs, you may have a need for more than one `TelemetryClient` in your application. For example, you might have one `TelemetryClient` that buffers telemetry items and is used for all telemetry other than errors, and a second that does not buffer and is used only to submit errors as promptly as possible. Please review the example code and API docs for alternative configurations.
 
+### Offline support
+
+To persist telemetry locally when connectivity is unavailable, use an `OfflineStorageProcessor`:
+
+```dart
+final processor = BufferedProcessor(
+  next: OfflineStorageProcessor(
+    connectionString: connectionString,
+    httpClient: client,
+    storageFilePath: '/path/to/cache.txt',
+    timeout: const Duration(seconds: 10),
+  ),
+);
+```
+
+Telemetry is written to the specified file if transmission fails and resent automatically on subsequent processing or when `flush` is called.
+
 Once you have a `TelemetryClient`, you can simply invoke the various methods to capture telemetry items:
 
 ```dart
